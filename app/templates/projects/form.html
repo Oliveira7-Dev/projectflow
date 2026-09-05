@@ -3,6 +3,7 @@
 <header class="page-header"><div><span class="eyebrow">Projeto</span><h1>{{ 'Editar projeto' if project else 'Novo projeto' }}</h1></div></header>
 <div class="panel form-panel">
 <form method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <label>Nome<input name="name" required value="{{ project.name if project else '' }}"></label>
   <label>Descrição<textarea name="description" rows="5">{{ project.description if project else '' }}</textarea></label>
   <label>Status<select name="status">{% for s in ['Em andamento','Planejado','Concluído'] %}<option {% if project and project.status==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select></label>

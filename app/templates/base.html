@@ -34,7 +34,7 @@
           <div class="avatar">{{ current_user.name[0]|upper }}</div>
           <div><strong>{{ current_user.name }}</strong><small>{{ current_user.email }}</small></div>
         </div>
-        <a href="{{ url_for('auth.logout') }}" class="logout">Sair</a>
+        <form method="post" action="{{ url_for('auth.logout') }}" class="logout-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="logout logout-button">Sair</button></form>
       </div>
     </aside>
 

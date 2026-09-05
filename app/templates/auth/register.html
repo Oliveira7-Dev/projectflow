@@ -6,6 +6,7 @@
   <h1>Criar conta</h1>
   <p>Comece a organizar seus projetos em poucos minutos.</p>
   <form method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Nome<input name="name" required></label>
     <label>E-mail<input type="email" name="email" required></label>
     <label>Senha<input type="password" name="password" minlength="6" required></label>

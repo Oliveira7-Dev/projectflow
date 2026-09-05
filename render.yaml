@@ -4,15 +4,12 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi:app
+    startCommand: gunicorn --workers 2 --threads 2 --timeout 60 wsgi:app
     envVars:
       - key: SECRET_KEY
         generateValue: true
-      - key: DATABASE_URL
-        fromDatabase:
-          name: projectflow-db
-          property: connectionString
+      - key: RENDER
+        value: "true"
 
-databases:
-  - name: projectflow-db
-    plan: free
+# DATABASE_URL deve ser configurada manualmente no painel do Render
+# usando a connection string privada do Neon.

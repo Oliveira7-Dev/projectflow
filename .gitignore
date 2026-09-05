@@ -6,3 +6,6 @@ venv/
 instance/
 *.sqlite3
 .pytest_cache/
+.env.*
+!.env.example
+*.sqlite

@@ -3,6 +3,7 @@
 <header class="page-header"><div><span class="eyebrow">{{ project.name }}</span><h1>{{ 'Editar tarefa' if task else 'Nova tarefa' }}</h1></div></header>
 <div class="panel form-panel">
 <form method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <label>Título<input name="title" required value="{{ task.title if task else '' }}"></label>
   <label>Descrição<textarea name="description" rows="4">{{ task.description if task else '' }}</textarea></label>
   <div class="form-grid">
@@ -14,6 +15,7 @@
 </form>
 </div>
 {% if task %}
-<form method="post" action="{{ url_for('main.task_delete', task_id=task.id) }}" onsubmit="return confirm('Excluir tarefa?')"><button class="btn danger">Excluir tarefa</button></form>
+<form method="post" action="{{ url_for('main.task_delete', task_id=task.id) }}" onsubmit="return confirm('Excluir tarefa?')">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn danger">Excluir tarefa</button></form>
 {% endif %}
 {% endblock %}

@@ -23,6 +23,7 @@
   {% else %}<div class="empty">Nenhuma tarefa neste projeto.</div>{% endfor %}
 </div>
 <form method="post" action="{{ url_for('main.project_delete', project_id=project.id) }}" onsubmit="return confirm('Excluir projeto?')">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <button class="btn danger">Excluir projeto</button>
 </form>
 {% endblock %}

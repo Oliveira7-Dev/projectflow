@@ -6,6 +6,7 @@
   <h1>Bem-vindo de volta</h1>
   <p>Entre para gerenciar seus projetos e tarefas.</p>
   <form method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>E-mail<input type="email" name="email" required placeholder="voce@email.com"></label>
     <label>Senha<input type="password" name="password" required placeholder="••••••••"></label>
     <button class="btn primary" type="submit">Entrar</button>

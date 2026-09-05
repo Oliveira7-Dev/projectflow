@@ -14,7 +14,8 @@ class User(UserMixin, db.Model):
     tasks = db.relationship("Task", backref="assignee", lazy=True)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        # O Werkzeug usa um KDF seguro; senha original nunca é armazenada.
+        self.password_hash = generate_password_hash(password, method="scrypt")
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -25,7 +26,7 @@ class Project(db.Model):
     description = db.Column(db.Text, default="")
     status = db.Column(db.String(30), default="Em andamento")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, index=True)
 
     tasks = db.relationship("Task", backref="project", lazy=True, cascade="all, delete-orphan")
 
@@ -45,5 +46,5 @@ class Task(db.Model):
     due_date = db.Column(db.Date, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    project_id = db.Column(db.Integer, db.ForeignKey("project.id"), nullable=False)
-    assignee_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    project_id = db.Column(db.Integer, db.ForeignKey("project.id"), nullable=False, index=True)
+    assignee_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True, index=True)
