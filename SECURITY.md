@@ -41,3 +41,8 @@
 ## Política de senha
 
 O servidor valida mínimo de 10 caracteres, letra maiúscula, letra minúscula, número e caractere especial. A barra de força no navegador é apenas informativa; a validação real também acontece no backend.
+
+
+## Verificação de propriedade do e-mail
+
+Novas contas são criadas como não verificadas. O login só é permitido após a confirmação por link temporário enviado ao endereço cadastrado. O reenvio possui rate limit e respostas genéricas para reduzir enumeração de contas.

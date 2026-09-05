@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Configurações do perfil | ProjectFlow{% endblock %}
+
+{% block content %}
+<section class="settings-shell">
+  <header class="settings-header">
+    <div>
+      <span class="eyebrow">Conta</span>
+      <h1>Configurações do perfil</h1>
+      <p>Gerencie seus dados pessoais e as opções de segurança da sua conta.</p>
+    </div>
+  </header>
+
+  <div class="settings-layout">
+    <aside class="settings-nav">
+      <a class="active" href="{{ url_for('main.profile_settings') }}">
+        <span>👤</span>
+        <div><strong>Perfil</strong><small>Nome e e-mail</small></div>
+      </a>
+
+      <a href="{{ url_for('main.security_settings') }}">
+        <span>🔐</span>
+        <div><strong>Segurança</strong><small>Alterar senha</small></div>
+      </a>
+    </aside>
+
+    <section class="settings-card">
+      <div class="settings-card-head">
+        <div class="profile-avatar-lg">{{ current_user.name[0]|upper }}</div>
+        <div>
+          <h2>Informações pessoais</h2>
+          <p>Esses dados identificam sua conta dentro do ProjectFlow.</p>
+        </div>
+      </div>
+
+      <form method="post" class="form settings-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-grid">
+          <label>
+            Nome
+            <input
+              type="text"
+              name="name"
+              value="{{ current_user.name }}"
+              maxlength="120"
+              required
+              autocomplete="name"
+            >
+          </label>
+
+          <label>
+            E-mail
+            <input
+              type="email"
+              name="email"
+              value="{{ current_user.email }}"
+              maxlength="180"
+              required
+              autocomplete="email"
+            >
+          </label>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn primary" type="submit">Salvar alterações</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>
+{% endblock %}

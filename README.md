@@ -118,3 +118,42 @@ A senha exige:
 - pelo menos 1 caractere especial
 
 As telas de cadastro e recuperação exibem uma barra de força da senha em tempo real.
+
+
+## ⚙️ Configurações de perfil
+
+O usuário autenticado pode:
+
+- alterar nome e e-mail;
+- acessar uma área exclusiva de segurança;
+- alterar a senha somente após confirmar a senha atual;
+- visualizar a força da nova senha em tempo real;
+- usar a mesma política de senha forte aplicada no cadastro e recuperação.
+
+A área de configurações é responsiva para desktop e dispositivos móveis.
+
+
+## ✉️ Verificação obrigatória de e-mail
+
+Novas contas ficam bloqueadas até que o usuário confirme o endereço por um link enviado ao e-mail informado.
+
+- link válido por 24 horas;
+- login bloqueado antes da confirmação;
+- opção de reenviar o link;
+- limitação de reenvios para reduzir abuso;
+- usuários já existentes continuam ativos após a atualização.
+
+
+## ✉️ E-mails HTML profissionais
+
+Os e-mails transacionais do ProjectFlow possuem versão HTML responsiva e versão em texto simples como fallback.
+
+Incluídos:
+
+- confirmação de cadastro;
+- recuperação de senha;
+- identidade visual do ProjectFlow;
+- botão de ação destacado;
+- aviso de expiração;
+- link alternativo para copiar e colar;
+- remetente configurável com `SMTP_FROM_NAME`.

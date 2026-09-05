@@ -9,6 +9,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_talisman import Talisman
 from werkzeug.middleware.proxy_fix import ProxyFix
+from sqlalchemy import inspect, text
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -94,5 +95,16 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+        # Migração leve para bancos já existentes.
+        # Usuários antigos são considerados verificados para não perderem acesso.
+        inspector = inspect(db.engine)
+        if "user" in inspector.get_table_names():
+            columns = {col["name"] for col in inspector.get_columns("user")}
+            if "is_verified" not in columns:
+                db.session.execute(
+                    text('ALTER TABLE "user" ADD COLUMN is_verified BOOLEAN NOT NULL DEFAULT TRUE')
+                )
+                db.session.commit()
 
     return app

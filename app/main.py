@@ -1,8 +1,8 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
-from . import db
-from .models import Project, Task
+from . import db, limiter
+from .models import Project, Task, User
 
 main_bp = Blueprint("main", __name__)
 
@@ -168,3 +168,79 @@ def task_delete(task_id):
     db.session.commit()
     flash("Tarefa excluída.", "success")
     return redirect(url_for("main.project_detail", project_id=project_id))
+
+
+@main_bp.route("/settings/profile", methods=["GET", "POST"])
+@login_required
+def profile_settings():
+    if request.method == "POST":
+        name = clean_text(request.form.get("name"), 120)
+        email = clean_text(request.form.get("email"), 180).lower()
+
+        if len(name) < 2:
+            flash("Informe um nome válido.", "warning")
+            return render_template("settings/profile.html")
+
+        if not email or "@" not in email:
+            flash("Informe um e-mail válido.", "warning")
+            return render_template("settings/profile.html")
+
+        existing = User.query.filter(User.email == email, User.id != current_user.id).first()
+        if existing:
+            flash("Este e-mail já está sendo usado por outra conta.", "warning")
+            return render_template("settings/profile.html")
+
+        current_user.name = name
+        current_user.email = email
+        db.session.commit()
+
+        flash("Perfil atualizado com sucesso.", "success")
+        return redirect(url_for("main.profile_settings"))
+
+    return render_template("settings/profile.html")
+
+
+@main_bp.route("/settings/security", methods=["GET", "POST"])
+@login_required
+@limiter.limit("5 per 10 minutes", methods=["POST"])
+def security_settings():
+    if request.method == "POST":
+        current_password = request.form.get("current_password", "")
+        new_password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not current_user.check_password(current_password):
+            flash("A senha atual está incorreta.", "danger")
+            return render_template("settings/security.html")
+
+        if new_password != confirm_password:
+            flash("A confirmação da nova senha não confere.", "warning")
+            return render_template("settings/security.html")
+
+        # Mesmo padrão do cadastro/recuperação:
+        # 10+ caracteres, maiúscula, minúscula, número e especial.
+        if not (
+            len(new_password) >= 10
+            and any(c.isupper() for c in new_password)
+            and any(c.islower() for c in new_password)
+            and any(c.isdigit() for c in new_password)
+            and any(not c.isalnum() for c in new_password)
+        ):
+            flash(
+                "A nova senha precisa ter no mínimo 10 caracteres, "
+                "com maiúscula, minúscula, número e caractere especial.",
+                "warning",
+            )
+            return render_template("settings/security.html")
+
+        if current_user.check_password(new_password):
+            flash("A nova senha precisa ser diferente da senha atual.", "warning")
+            return render_template("settings/security.html")
+
+        current_user.set_password(new_password)
+        db.session.commit()
+
+        flash("Senha alterada com sucesso.", "success")
+        return redirect(url_for("main.security_settings"))
+
+    return render_template("settings/security.html")

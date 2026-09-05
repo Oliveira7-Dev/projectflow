@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Confirmar e-mail | ProjectFlow{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="brand big">⚡ ProjectFlow</div>
+  <h1>Confirmar e-mail</h1>
+  <p>
+    Digite o endereço usado no cadastro. Se a conta ainda estiver pendente,
+    enviaremos um novo link de confirmação.
+  </p>
+
+  <form method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>
+      E-mail
+      <input
+        type="email"
+        name="email"
+        required
+        maxlength="180"
+        autocomplete="email"
+        placeholder="voce@email.com"
+      >
+    </label>
+
+    <button class="btn primary" type="submit">Reenviar confirmação</button>
+  </form>
+
+  <p class="muted">
+    <a href="{{ url_for('auth.login') }}">← Voltar para o login</a>
+  </p>
+</div>
+{% endblock %}

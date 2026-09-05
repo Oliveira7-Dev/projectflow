@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Segurança | ProjectFlow{% endblock %}
+
+{% block content %}
+<section class="settings-shell">
+  <header class="settings-header">
+    <div>
+      <span class="eyebrow">Conta</span>
+      <h1>Segurança</h1>
+      <p>Altere sua senha com confirmação da senha atual.</p>
+    </div>
+  </header>
+
+  <div class="settings-layout">
+    <aside class="settings-nav">
+      <a href="{{ url_for('main.profile_settings') }}">
+        <span>👤</span>
+        <div><strong>Perfil</strong><small>Nome e e-mail</small></div>
+      </a>
+
+      <a class="active" href="{{ url_for('main.security_settings') }}">
+        <span>🔐</span>
+        <div><strong>Segurança</strong><small>Alterar senha</small></div>
+      </a>
+    </aside>
+
+    <section class="settings-card">
+      <div class="security-intro">
+        <div class="security-icon">🔐</div>
+        <div>
+          <h2>Alterar senha</h2>
+          <p>Por segurança, confirme sua senha atual antes de definir uma nova.</p>
+        </div>
+      </div>
+
+      <form method="post" class="form settings-form password-settings-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>
+          Senha atual
+          <input
+            type="password"
+            name="current_password"
+            required
+            autocomplete="current-password"
+            placeholder="Digite sua senha atual"
+          >
+        </label>
+
+        <label>
+          Nova senha
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            minlength="10"
+            autocomplete="new-password"
+            placeholder="Crie uma nova senha forte"
+          >
+        </label>
+
+        <div class="password-strength" data-password-strength>
+          <div class="strength-bar">
+            <span class="strength-fill"></span>
+          </div>
+
+          <div class="strength-meta">
+            <span class="strength-label">Força da senha: <strong>Muito fraca</strong></span>
+            <span class="strength-score">0/5</span>
+          </div>
+
+          <ul class="password-rules">
+            <li data-rule="length">Pelo menos 10 caracteres</li>
+            <li data-rule="upper">1 letra maiúscula</li>
+            <li data-rule="lower">1 letra minúscula</li>
+            <li data-rule="number">1 número</li>
+            <li data-rule="special">1 caractere especial</li>
+          </ul>
+        </div>
+
+        <label>
+          Confirmar nova senha
+          <input
+            type="password"
+            name="confirm_password"
+            required
+            minlength="10"
+            autocomplete="new-password"
+            placeholder="Digite a nova senha novamente"
+          >
+        </label>
+
+        <div class="security-note">
+          <strong>Dica de segurança</strong>
+          <span>Não reutilize a mesma senha de outros serviços.</span>
+        </div>
+
+        <div class="settings-actions">
+          <button class="btn primary" type="submit">Alterar senha</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>
+{% endblock %}

@@ -9,7 +9,8 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>E-mail<input type="email" name="email" required placeholder="voce@email.com"></label>
     <label>Senha<input type="password" name="password" required placeholder="••••••••"></label>
-    <div class="login-options"><a href="{{ url_for('auth.forgot_password') }}">Esqueci minha senha</a></div>
+    <div class="login-options"><a href="{{ url_for('auth.forgot_password') }}">Esqueci minha senha</a>
+      <a href="{{ url_for('auth.resend_verification') }}">Confirmar meu e-mail</a></div>
     <button class="btn primary" type="submit">Entrar</button>
   </form>
   <p class="muted">Ainda não tem conta? <a href="{{ url_for('auth.register') }}">Criar conta</a></p>

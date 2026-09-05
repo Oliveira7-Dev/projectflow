@@ -28,6 +28,7 @@
         <a href="{{ url_for('main.dashboard') }}">📊 Dashboard</a>
         <a href="{{ url_for('main.projects') }}">📁 Projetos</a>
         <a href="{{ url_for('main.project_new') }}">➕ Novo projeto</a>
+        <a href="{{ url_for('main.profile_settings') }}">⚙️ Configurações</a>
       </nav>
       <div class="sidebar-footer">
         <div class="user-mini">
@@ -41,7 +42,7 @@
     <header class="mobile-topbar">
       <button class="menu-button" id="menuButton" aria-label="Abrir menu">☰</button>
       <div class="brand">⚡ ProjectFlow</div>
-      <a class="avatar compact" href="{{ url_for('main.dashboard') }}">{{ current_user.name[0]|upper }}</a>
+      <a class="avatar compact" href="{{ url_for('main.profile_settings') }}" aria-label="Configurações do perfil">{{ current_user.name[0]|upper }}</a>
     </header>
 
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
