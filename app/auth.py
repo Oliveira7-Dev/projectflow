@@ -191,7 +191,7 @@ def register():
                 form_email=email,
             )
 
-        user = User(name=name, email=email, is_verified=False)
+        user = User(name=name, email=email, is_verified=True)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
