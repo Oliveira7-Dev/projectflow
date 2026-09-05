@@ -144,3 +144,294 @@
   .stats-grid{grid-template-columns:1fr}
   .actions{grid-template-columns:1fr}
 }
+
+
+/* ==========================================================
+   MOBILE FIX FINAL
+   Corrige o app-shell que estava colocando topbar e conteúdo
+   lado a lado em telas pequenas.
+   ========================================================== */
+
+.dashboard-hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  padding:28px;
+  margin-bottom:20px;
+  border:1px solid #202b49;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 88% 20%, rgba(109,93,252,.30), transparent 32%),
+    #11182c;
+  overflow:hidden;
+}
+
+.dashboard-hero h1{
+  margin:8px 0 10px;
+  font-size:36px;
+  letter-spacing:-1px;
+}
+
+.dashboard-hero p{
+  margin:0 0 20px;
+  color:#96a2ba;
+  max-width:560px;
+}
+
+.hero-visual{
+  flex:0 0 auto;
+  font-size:90px;
+  filter:drop-shadow(0 16px 28px rgba(0,0,0,.35));
+}
+
+.hero-button{
+  width:max-content;
+}
+
+.stat-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.stat-icon{
+  width:54px;
+  height:54px;
+  flex:0 0 54px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+}
+
+.stat-icon.blue{background:#173d6d}
+.stat-icon.green{background:#174d3c}
+.stat-icon.yellow{background:#594819}
+.stat-icon.purple{background:#342368}
+
+.empty-project-panel{
+  text-align:center;
+  padding:42px 24px;
+}
+
+.empty-project-panel h2{
+  margin:12px 0 8px;
+}
+
+.empty-project-panel p{
+  color:#8f9ab0;
+  margin:0 auto 22px;
+  max-width:460px;
+}
+
+.empty-project-icon{
+  font-size:44px;
+}
+
+.activity-empty{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:14px;
+  text-align:left;
+}
+
+.activity-empty strong,
+.activity-empty small{
+  display:block;
+}
+
+.activity-empty small{
+  color:#77849f;
+  margin-top:4px;
+}
+
+.activity-icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#1a2440;
+}
+
+@media (max-width: 700px){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    padding-bottom:92px;
+  }
+
+  /* ESSA É A CORREÇÃO PRINCIPAL */
+  .app-shell{
+    display:block !important;
+    width:100% !important;
+    min-height:100vh;
+  }
+
+  .mobile-topbar{
+    display:flex !important;
+    width:100%;
+    height:66px;
+    box-sizing:border-box;
+    position:sticky;
+    top:0;
+    left:0;
+    right:0;
+  }
+
+  .mobile-topbar .brand{
+    font-size:20px;
+    white-space:nowrap;
+  }
+
+  .content,
+  .content.auth-content{
+    display:block;
+    margin-left:0 !important;
+    width:100% !important;
+    max-width:100% !important;
+    padding:16px 16px 28px !important;
+  }
+
+  .dashboard-hero{
+    width:100%;
+    display:block;
+    padding:22px 20px;
+    margin:0 0 14px;
+    border-radius:18px;
+  }
+
+  .dashboard-hero h1{
+    font-size:30px;
+    line-height:1.12;
+    margin:7px 0 9px;
+  }
+
+  .dashboard-hero p{
+    font-size:16px;
+    line-height:1.5;
+    margin-bottom:18px;
+  }
+
+  .hero-visual{
+    display:none;
+  }
+
+  .hero-button{
+    width:100%;
+    min-height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    border-radius:13px;
+  }
+
+  .stats-grid.mobile-stats{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    width:100%;
+    margin-bottom:14px;
+  }
+
+  .mobile-stats .stat-card{
+    min-width:0;
+    min-height:150px;
+    padding:15px;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    gap:10px;
+    border-radius:16px;
+  }
+
+  .mobile-stats .stat-icon{
+    width:46px;
+    height:46px;
+    flex-basis:46px;
+    border-radius:12px;
+    font-size:20px;
+  }
+
+  .mobile-stats .stat-card span{
+    font-size:13px;
+  }
+
+  .mobile-stats .stat-card strong{
+    font-size:30px;
+    margin:5px 0;
+  }
+
+  .mobile-stats .stat-card small{
+    font-size:12px;
+    line-height:1.3;
+  }
+
+  .empty-project-panel{
+    width:100%;
+    padding:30px 18px;
+    margin-bottom:14px;
+  }
+
+  .empty-project-panel .btn{
+    width:100%;
+    max-width:260px;
+  }
+
+  .dashboard-panels{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    width:100%;
+  }
+
+  .dashboard-panels .panel{
+    width:100%;
+    margin:0;
+  }
+
+  .project-row{
+    width:100%;
+  }
+
+  .mobile-bottom-nav{
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr);
+    left:12px;
+    right:12px;
+    width:auto;
+    max-width:none;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-bottom-nav a{
+    min-width:0;
+  }
+
+  .sidebar{
+    position:fixed !important;
+    top:0;
+    bottom:0;
+    left:0;
+    height:100dvh;
+  }
+}
+
+@media (max-width: 390px){
+  .stats-grid.mobile-stats{
+    grid-template-columns:1fr !important;
+  }
+
+  .mobile-stats .stat-card{
+    min-height:auto;
+    flex-direction:row;
+    align-items:center;
+  }
+}

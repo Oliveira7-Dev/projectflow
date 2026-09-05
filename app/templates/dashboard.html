@@ -1,37 +1,110 @@
 {% extends "base.html" %}
 {% block title %}Dashboard | ProjectFlow{% endblock %}
-{% block content %}
-<header class="page-header">
-  <div><span class="eyebrow">Visão geral</span><h1>Olá, {{ current_user.name.split()[0] }} 👋</h1><p>Acompanhe seus projetos e tarefas em um só lugar.</p></div>
-  <a class="btn primary" href="{{ url_for('main.project_new') }}">+ Novo projeto</a>
-</header>
 
-<section class="stats-grid">
-  <div class="stat-card"><span>Projetos</span><strong>{{ stats.projects }}</strong><small>Total cadastrado</small></div>
-  <div class="stat-card"><span>Tarefas</span><strong>{{ stats.tasks }}</strong><small>Total de tarefas</small></div>
-  <div class="stat-card"><span>Pendentes</span><strong>{{ stats.pending }}</strong><small>Precisam de atenção</small></div>
-  <div class="stat-card"><span>Concluídas</span><strong>{{ stats.done }}</strong><small>Finalizadas</small></div>
+{% block content %}
+<section class="dashboard-hero">
+  <div class="hero-copy">
+    <span class="eyebrow">Visão geral</span>
+    <h1>👋 Olá, {{ current_user.name.split()[0] }}</h1>
+    <p>Acompanhe seus projetos e tarefas em um só lugar.</p>
+    <a class="btn primary hero-button" href="{{ url_for('main.project_new') }}">＋ Novo projeto</a>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">🎯</div>
 </section>
 
-<section class="split">
+<section class="stats-grid mobile-stats">
+  <div class="stat-card">
+    <div class="stat-icon blue">📁</div>
+    <div>
+      <span>Projetos</span>
+      <strong>{{ stats.projects }}</strong>
+      <small>Total de projetos</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon green">✅</div>
+    <div>
+      <span>Tarefas</span>
+      <strong>{{ stats.tasks }}</strong>
+      <small>Total de tarefas</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon yellow">🕒</div>
+    <div>
+      <span>Pendentes</span>
+      <strong>{{ stats.pending }}</strong>
+      <small>Precisam de atenção</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon purple">📊</div>
+    <div>
+      <span>Concluídas</span>
+      <strong>{{ stats.done }}</strong>
+      <small>Tarefas finalizadas</small>
+    </div>
+  </div>
+</section>
+
+{% if not projects %}
+<section class="panel empty-project-panel">
+  <div class="empty-project-icon">📁</div>
+  <h2>Nenhum projeto ainda</h2>
+  <p>Crie seu primeiro projeto e comece a organizar suas tarefas.</p>
+  <a class="btn primary" href="{{ url_for('main.project_new') }}">＋ Criar projeto</a>
+</section>
+{% endif %}
+
+<section class="split dashboard-panels">
   <div class="panel">
-    <div class="panel-title"><h2>Projetos recentes</h2><a href="{{ url_for('main.projects') }}">Ver todos</a></div>
+    <div class="panel-title">
+      <h2>Projetos recentes</h2>
+      <a href="{{ url_for('main.projects') }}">Ver todos</a>
+    </div>
+
     {% for p in projects %}
       <a class="project-row" href="{{ url_for('main.project_detail', project_id=p.id) }}">
-        <div><strong>{{ p.name }}</strong><small>{{ p.status }}</small></div>
-        <div class="progress-wrap"><div class="progress"><span style="width:{{ p.progress }}%"></span></div><small>{{ p.progress }}%</small></div>
+        <div>
+          <strong>{{ p.name }}</strong>
+          <small>{{ p.status }}</small>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress"><span style="width:{{ p.progress }}%"></span></div>
+          <small>{{ p.progress }}%</small>
+        </div>
       </a>
-    {% else %}<div class="empty">Nenhum projeto ainda.</div>{% endfor %}
+    {% else %}
+      <div class="empty">Nenhum projeto cadastrado.</div>
+    {% endfor %}
   </div>
 
   <div class="panel">
-    <div class="panel-title"><h2>Tarefas recentes</h2></div>
+    <div class="panel-title">
+      <h2>Atividade recente</h2>
+    </div>
+
     {% for t in recent_tasks %}
       <div class="task-row">
-        <div><strong>{{ t.title }}</strong><small>{{ t.project.name }}</small></div>
+        <div>
+          <strong>{{ t.title }}</strong>
+          <small>{{ t.project.name }}</small>
+        </div>
         <span class="badge {{ t.priority|lower }}">{{ t.priority }}</span>
       </div>
-    {% else %}<div class="empty">Nenhuma tarefa ainda.</div>{% endfor %}
+    {% else %}
+      <div class="empty activity-empty">
+        <span class="activity-icon">🕒</span>
+        <div>
+          <strong>Nenhuma atividade recente</strong>
+          <small>Suas ações aparecerão aqui.</small>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 </section>
 {% endblock %}

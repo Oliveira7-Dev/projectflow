@@ -1,4 +1,4 @@
-const CACHE_NAME = 'projectflow-v1';
+const CACHE_NAME = 'projectflow-v3';
 const STATIC_ASSETS = [
   '/static/css/style.css',
   '/static/img/icon-192.png',
