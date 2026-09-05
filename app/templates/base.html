@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ProjectFlow">
+  <title>{% block title %}ProjectFlow{% endblock %}</title>
+
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/icon-192.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/icon-192.png') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    {% if current_user.is_authenticated %}
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">⚡ <span>ProjectFlow</span></div>
+      <nav>
+        <a href="{{ url_for('main.dashboard') }}">📊 Dashboard</a>
+        <a href="{{ url_for('main.projects') }}">📁 Projetos</a>
+        <a href="{{ url_for('main.project_new') }}">➕ Novo projeto</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-mini">
+          <div class="avatar">{{ current_user.name[0]|upper }}</div>
+          <div><strong>{{ current_user.name }}</strong><small>{{ current_user.email }}</small></div>
+        </div>
+        <a href="{{ url_for('auth.logout') }}" class="logout">Sair</a>
+      </div>
+    </aside>
+
+    <header class="mobile-topbar">
+      <button class="menu-button" id="menuButton" aria-label="Abrir menu">☰</button>
+      <div class="brand">⚡ ProjectFlow</div>
+      <a class="avatar compact" href="{{ url_for('main.dashboard') }}">{{ current_user.name[0]|upper }}</a>
+    </header>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    {% endif %}
+
+    <main class="content {% if not current_user.is_authenticated %}auth-content{% endif %}">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    {% if current_user.is_authenticated %}
+    <nav class="mobile-bottom-nav">
+      <a href="{{ url_for('main.dashboard') }}"><span>📊</span><small>Início</small></a>
+      <a href="{{ url_for('main.projects') }}"><span>📁</span><small>Projetos</small></a>
+      <a href="{{ url_for('main.project_new') }}" class="primary-nav"><span>＋</span><small>Novo</small></a>
+    </nav>
+    {% endif %}
+  </div>
+
+  <script>
+    const menuButton = document.getElementById('menuButton');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    function toggleSidebar() {
+      if (!sidebar) return;
+      sidebar.classList.toggle('open');
+      sidebarBackdrop.classList.toggle('show');
+      document.body.classList.toggle('menu-open');
+    }
+
+    if (menuButton) menuButton.addEventListener('click', toggleSidebar);
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleSidebar);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('{{ url_for("static", filename="sw.js") }}').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

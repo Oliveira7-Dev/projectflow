@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Criar conta | ProjectFlow{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="brand big">⚡ ProjectFlow</div>
+  <h1>Criar conta</h1>
+  <p>Comece a organizar seus projetos em poucos minutos.</p>
+  <form method="post" class="form">
+    <label>Nome<input name="name" required></label>
+    <label>E-mail<input type="email" name="email" required></label>
+    <label>Senha<input type="password" name="password" minlength="6" required></label>
+    <button class="btn primary" type="submit">Criar conta</button>
+  </form>
+  <p class="muted">Já possui conta? <a href="{{ url_for('auth.login') }}">Entrar</a></p>
+</div>
+{% endblock %}

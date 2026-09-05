@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+  <div><span class="eyebrow">{{ project.status }}</span><h1>{{ project.name }}</h1><p>{{ project.description }}</p></div>
+  <div class="actions"><a class="btn" href="{{ url_for('main.project_edit', project_id=project.id) }}">Editar</a><a class="btn primary" href="{{ url_for('main.task_new', project_id=project.id) }}">+ Tarefa</a></div>
+</header>
+
+<div class="panel">
+  <div class="panel-title"><h2>Progresso do projeto</h2><strong>{{ project.progress }}%</strong></div>
+  <div class="progress large"><span style="width:{{ project.progress }}%"></span></div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><h2>Tarefas</h2><span>{{ project.tasks|length }} total</span></div>
+  {% for t in project.tasks %}
+  <div class="task-table-row">
+    <div><strong>{{ t.title }}</strong><small>{{ t.description }}</small></div>
+    <span class="badge {{ t.priority|lower }}">{{ t.priority }}</span>
+    <span class="badge">{{ t.status }}</span>
+    <span>{{ t.due_date.strftime('%d/%m/%Y') if t.due_date else 'Sem prazo' }}</span>
+    <a href="{{ url_for('main.task_edit', task_id=t.id) }}">Editar</a>
+  </div>
+  {% else %}<div class="empty">Nenhuma tarefa neste projeto.</div>{% endfor %}
+</div>
+<form method="post" action="{{ url_for('main.project_delete', project_id=project.id) }}" onsubmit="return confirm('Excluir projeto?')">
+  <button class="btn danger">Excluir projeto</button>
+</form>
+{% endblock %}

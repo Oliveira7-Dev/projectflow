@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Projetos | ProjectFlow{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div><span class="eyebrow">Workspace</span><h1>Projetos</h1><p>Gerencie todos os seus projetos.</p></div>
+  <a class="btn primary" href="{{ url_for('main.project_new') }}">+ Novo projeto</a>
+</header>
+<form class="filter" method="get">
+  <select name="status" onchange="this.form.submit()">
+    <option value="">Todos os status</option>
+    {% for s in ['Em andamento','Planejado','Concluído'] %}
+      <option value="{{s}}" {% if selected_status==s %}selected{% endif %}>{{s}}</option>
+    {% endfor %}
+  </select>
+</form>
+<div class="cards-grid">
+  {% for p in projects %}
+  <a class="project-card" href="{{ url_for('main.project_detail', project_id=p.id) }}">
+    <span class="badge">{{ p.status }}</span>
+    <h3>{{ p.name }}</h3>
+    <p>{{ p.description or 'Sem descrição.' }}</p>
+    <div class="progress"><span style="width:{{ p.progress }}%"></span></div>
+    <small>{{ p.progress }}% concluído · {{ p.tasks|length }} tarefas</small>
+  </a>
+  {% else %}<div class="empty">Nenhum projeto encontrado.</div>{% endfor %}
+</div>
+{% endblock %}

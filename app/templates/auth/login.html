@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login | ProjectFlow{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="brand big">⚡ ProjectFlow</div>
+  <h1>Bem-vindo de volta</h1>
+  <p>Entre para gerenciar seus projetos e tarefas.</p>
+  <form method="post" class="form">
+    <label>E-mail<input type="email" name="email" required placeholder="voce@email.com"></label>
+    <label>Senha<input type="password" name="password" required placeholder="••••••••"></label>
+    <button class="btn primary" type="submit">Entrar</button>
+  </form>
+  <p class="muted">Ainda não tem conta? <a href="{{ url_for('auth.register') }}">Criar conta</a></p>
+</div>
+{% endblock %}

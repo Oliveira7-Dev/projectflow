@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | ProjectFlow{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div><span class="eyebrow">Visão geral</span><h1>Olá, {{ current_user.name.split()[0] }} 👋</h1><p>Acompanhe seus projetos e tarefas em um só lugar.</p></div>
+  <a class="btn primary" href="{{ url_for('main.project_new') }}">+ Novo projeto</a>
+</header>
+
+<section class="stats-grid">
+  <div class="stat-card"><span>Projetos</span><strong>{{ stats.projects }}</strong><small>Total cadastrado</small></div>
+  <div class="stat-card"><span>Tarefas</span><strong>{{ stats.tasks }}</strong><small>Total de tarefas</small></div>
+  <div class="stat-card"><span>Pendentes</span><strong>{{ stats.pending }}</strong><small>Precisam de atenção</small></div>
+  <div class="stat-card"><span>Concluídas</span><strong>{{ stats.done }}</strong><small>Finalizadas</small></div>
+</section>
+
+<section class="split">
+  <div class="panel">
+    <div class="panel-title"><h2>Projetos recentes</h2><a href="{{ url_for('main.projects') }}">Ver todos</a></div>
+    {% for p in projects %}
+      <a class="project-row" href="{{ url_for('main.project_detail', project_id=p.id) }}">
+        <div><strong>{{ p.name }}</strong><small>{{ p.status }}</small></div>
+        <div class="progress-wrap"><div class="progress"><span style="width:{{ p.progress }}%"></span></div><small>{{ p.progress }}%</small></div>
+      </a>
+    {% else %}<div class="empty">Nenhum projeto ainda.</div>{% endfor %}
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><h2>Tarefas recentes</h2></div>
+    {% for t in recent_tasks %}
+      <div class="task-row">
+        <div><strong>{{ t.title }}</strong><small>{{ t.project.name }}</small></div>
+        <span class="badge {{ t.priority|lower }}">{{ t.priority }}</span>
+      </div>
+    {% else %}<div class="empty">Nenhuma tarefa ainda.</div>{% endfor %}
+  </div>
+</section>
+{% endblock %}
