@@ -5,31 +5,69 @@
   <div class="brand big">⚡ ProjectFlow</div>
   <h1>Criar conta</h1>
   <p>Comece a organizar seus projetos em poucos minutos.</p>
-  <form method="post" class="form">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label>Nome<input name="name" required></label>
-    <label>E-mail<input type="email" name="email" required></label>
-    <label>Senha<input type="password" id="password" name="password" minlength="6" required autocomplete="new-password"></label>
 
-<div class="password-strength" data-password-strength>
-  <div class="strength-bar">
-    <span class="strength-fill"></span>
-  </div>
-  <div class="strength-meta">
-    <span class="strength-label">Força da senha: <strong>Muito fraca</strong></span>
-    <span class="strength-score">0/5</span>
-  </div>
-  <ul class="password-rules">
-    <li data-rule="length">Pelo menos 10 caracteres</li>
-    <li data-rule="upper">1 letra maiúscula</li>
-    <li data-rule="lower">1 letra minúscula</li>
-    <li data-rule="number">1 número</li>
-    <li data-rule="special">1 caractere especial</li>
-  </ul>
-</div>
+  <form method="post" class="form" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>
+      Nome
+      <input
+        name="name"
+        value="{{ form_name or '' }}"
+        maxlength="120"
+        required
+        autocomplete="name"
+      >
+    </label>
+
+    <label>
+      E-mail
+      <input
+        type="email"
+        name="email"
+        value="{{ form_email or '' }}"
+        maxlength="180"
+        required
+        autocomplete="email"
+        {% if email_error %}aria-invalid="true" aria-describedby="email-error"{% endif %}
+      >
+      {% if email_error %}
+        <small id="email-error" class="field-error">{{ email_error }}</small>
+      {% endif %}
+    </label>
+
+    <label>
+      Senha
+      <input
+        type="password"
+        id="password"
+        name="password"
+        minlength="10"
+        required
+        autocomplete="new-password"
+      >
+    </label>
+
+    <div class="password-strength" data-password-strength>
+      <div class="strength-bar">
+        <span class="strength-fill"></span>
+      </div>
+      <div class="strength-meta">
+        <span class="strength-label">Força da senha: <strong>Muito fraca</strong></span>
+        <span class="strength-score">0/5</span>
+      </div>
+      <ul class="password-rules">
+        <li data-rule="length">Pelo menos 10 caracteres</li>
+        <li data-rule="upper">1 letra maiúscula</li>
+        <li data-rule="lower">1 letra minúscula</li>
+        <li data-rule="number">1 número</li>
+        <li data-rule="special">1 caractere especial</li>
+      </ul>
+    </div>
 
     <button class="btn primary" type="submit">Criar conta</button>
   </form>
+
   <p class="muted">Já possui conta? <a href="{{ url_for('auth.login') }}">Entrar</a></p>
 </div>
 {% endblock %}

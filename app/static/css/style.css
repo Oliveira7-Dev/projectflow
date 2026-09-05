@@ -811,3 +811,16 @@
     justify-content:space-between;
   }
 }
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  color: #ff6b6b;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+input[aria-invalid="true"] {
+  border-color: #ff6b6b !important;
+  outline-color: #ff6b6b;
+}

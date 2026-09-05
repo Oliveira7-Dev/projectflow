@@ -165,15 +165,31 @@ def register():
 
         if len(name) < 2 or not EMAIL_RE.match(email):
             flash("Nome ou e-mail inválido.", "warning")
-            return render_template("auth/register.html")
+            return render_template(
+                "auth/register.html",
+                form_name=name,
+                form_email=email,
+            )
 
         if not valid_password(password):
             flash("A senha precisa ter no mínimo 10 caracteres, com maiúscula, minúscula, número e caractere especial.", "warning")
-            return render_template("auth/register.html")
+            return render_template(
+                "auth/register.html",
+                form_name=name,
+                form_email=email,
+            )
 
         if User.query.filter_by(email=email).first():
-            flash("Não foi possível concluir o cadastro com esses dados.", "warning")
-            return render_template("auth/register.html")
+            flash(
+                "Este e-mail já está cadastrado. Use outro e-mail ou entre na sua conta.",
+                "danger",
+            )
+            return render_template(
+                "auth/register.html",
+                email_error="Este e-mail já foi usado.",
+                form_name=name,
+                form_email=email,
+            )
 
         user = User(name=name, email=email, is_verified=False)
         user.set_password(password)
