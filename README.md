@@ -87,3 +87,34 @@ Em produção, o sistema usa `DATABASE_URL`. Localmente, continua usando SQLite.
 - Manifest e Service Worker incluídos
 
 No Android/Chrome, abra o site publicado e use a opção **Adicionar à tela inicial** ou **Instalar app**.
+
+
+## 🔐 Recuperação de senha por e-mail
+
+O ProjectFlow possui fluxo de recuperação de senha com link temporário enviado por e-mail.
+
+Variáveis necessárias no ambiente de produção:
+
+```text
+SMTP_HOST
+SMTP_PORT
+SMTP_USER
+SMTP_PASSWORD
+SMTP_FROM
+SMTP_USE_TLS
+```
+
+O link de redefinição expira em 30 minutos.
+
+
+## 🔑 Política de senha
+
+A senha exige:
+
+- mínimo de 10 caracteres
+- pelo menos 1 letra maiúscula
+- pelo menos 1 letra minúscula
+- pelo menos 1 número
+- pelo menos 1 caractere especial
+
+As telas de cadastro e recuperação exibem uma barra de força da senha em tempo real.
